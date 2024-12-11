@@ -1,5 +1,5 @@
-## Computer Organization Fall'24 
-# Lab 6: From C to RISC-V Assembly
+# Computer Organization Fall'24 
+## Lab 6: From C to RISC-V Assembly
 
 Required Setup:
 - For Windows- Install WSL2 (Windows Subsystem for Linux): Follow Microsoft's guide to install Linux distribution and WSL2
