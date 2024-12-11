@@ -1,0 +1,78 @@
+	.file   "lab6.c"                                                                                               
+	.option nopic                                                                                                
+	.attribute arch, "rv32i2p1_m2p0"                                                                                   
+	.attribute unaligned_access, 0                                                                                      
+	.attribute stack_align, 16                                                                             
+	.text                                                                                                             
+	.align  2                                                                                                       
+	.globl  calculate                                                                                           
+	.type   calculate, @function
+                                                                                            
+calculate:                                                                                                               
+    	addi    sp,sp,-32               	# create stack space for calculate function                       
+    	sw      ra,28(sp)               	# save return address
+    	sw      s0,24(sp)               	# save register s0
+    	addi    s0,sp,32                	# set up s0 as the stack pointer
+   	sw      a0,-20(s0)               	# store parameter a0 (x = 7) in stack
+    	sw      a1,-24(s0)               	# store parameter a1 (y = 8) in stack
+    	sw      a2,-28(s0)               	# store parameter a2 (z = 10) in stack
+    	sw      a3,-32(s0)               	# store parameter a3 (t = 5) in stack
+    	lw      a4,-20(s0)               	# load x = 7 into a4
+    	lw      a5,-24(s0)               	# load y = 8 into a5
+    	mul    a4,a4,a5                 	# a4 = 7 * 8 = 56
+    	lw      a3,-28(s0)               	# load z = 10 into a3
+    	lw      a5,-32(s0)               	# load t = 5 into a5
+    	div     a5,a3,a5                 	# a5 = 10 / 5 = 2
+    	add    a5,a4,a5                 	# a5 = 56 + 2
+    	mv     a0,a5                    	# a5 = a0 (return value)
+    	lw      ra,28(sp)                	# restore return address
+    	lw      s0,24(sp)                	# restore register s0
+    	addi   sp,sp,32                 	# restore stack pointer
+    	jr      ra                       	# return to main
+	.size   calculate, .-calculate                                                                                          
+	.section        .rodata                                                                                                
+	.align  2                
+                                                                                               
+.LC0:                                                                                                                  
+    	.string "The result of %d * %d + %d / %d is: %d\n"                 # print message
+	.text                                                                                                                   
+	.align  2                                                                                                              
+	.globl  main                                                                                                            
+	.type   main, @function    
+                                                                                     
+main:                                                                                                                    
+    	addi    sp,sp,-48               	# create stack space for main
+    	sw      ra,44(sp)               	# save return address
+    	sw      s0,40(sp)               	# save register s0
+    	addi    s0,sp,48                	# set up s0 as the stack pointer
+    	li         a5,7                    	# load a5 = 7
+    	sw      a5,-20(s0)               	# store x = 7 in stack
+    	li         a5,8                    	# load a5 = 8
+    	sw      a5,-24(s0)               	# store y = 8 in stack
+    	li         a5,10                   	# load a5 = 10
+    	sw      a5,-28(s0)               	# store z = 10) in stack 
+    	li         a5,5                    	# load a5 = 5
+    	sw      a5,-32(s0)               	# store t = 5 in stack
+    	lw      a3,-32(s0)               	# load t = 5 into a3
+    	lw      a2,-28(s0)               	# load z = 10 into a2
+    	lw      a1,-24(s0)               	# load y = 8 into a1
+    	lw      a0,-20(s0)               	# load x = 7 into a0
+    	call    calculate                	# call the calculate function with parameters x, y, z, t
+    	sw      a0,-36(s0)               	# store the result (from a0) in stack
+    	lw      a5,-36(s0)               	# load result from stack into a5
+    	lw      a4,-32(s0)               	# load t = 5 into a4
+    	lw      a3,-28(s0)               	# load z = 10 into a3
+    	lw      a2,-24(s0)               	# load y = 8 into a2
+    	lw      a1,-20(s0)               	# load x = 7 into a1
+    	lui     a0,%hi(.LC0)             	# load address of string ".LC0" into a0
+    	addi    a0,a0,%lo(.LC0)          	# add the low part of the address to a0
+    	call    printf                   	# print the formatted result
+    	li      a5,0                     	# load a5 = 0
+    	mv      a0,a5                    	# set return value a0 = 0
+    	lw      ra,44(sp)                	# restore return address 
+    	lw      s0,40(sp)                	# restore register s0
+    	addi    sp,sp,48                 	# restore stack pointer
+    	jr      ra                       	# return from main
+	.size   main, .-main                                                                                                   
+	.ident  "GCC: () 14.2.0"                                                                
+	.section        .note.GNU-stack,"",@progbits  
