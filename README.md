@@ -1,5 +1,5 @@
-# Computer Organization Fall'24 
-Lab 6: From C to RISC-V Assembly
+## Computer Organization Fall'24 
+# Lab 6: From C to RISC-V Assembly
 
 Required Setup:
 - For Windows- Install WSL2 (Windows Subsystem for Linux): Follow Microsoft's guide to install Linux distribution and WSL2
@@ -8,6 +8,7 @@ Required Setup:
   • sudo apt-get install autoconf automake autotools-dev curl python3 python3-pip libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build git cmake libglib2.0-dev
 libslirp-dev
   • git clone https://github.com/riscv/riscv-gnu-toolchain
+  
   • cd riscv-gnu-toolchain
   • ./configure --prefix=/opt/riscv --with-arch=rv32gc --with-abi=ilp32d
   • sudo make
